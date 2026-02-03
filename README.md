@@ -104,3 +104,5 @@ cd ../../..
 ```
 
 Run the last command from the `gem5_sim/` directory so the binary path `tests/test-progs/spm_test/bin/spm_test` resolves correctly.
+
+## Git push

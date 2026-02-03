@@ -1,0 +1,9 @@
+# 测试运行结果与资源
+testing-results
+gem5/resources
+build/
+m5out
+# 测试输出（保留 README 等文档时可改用更具体规则）
+*.md
+!README*.txt
+tests/test-progs/spm_test/bin/

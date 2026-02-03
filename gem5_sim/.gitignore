@@ -1,0 +1,74 @@
+# 构建目录与产物
+build
+gem5_build
+m5out
+
+# Python
+*.pyc
+*.pyo
+__pycache__/
+.pyenv
+*.egg-info/
+.eggs/
+
+# 编辑器 / IDE
+*~
+.*.swp
+.*.swo
+.vscode
+.idea
+typings
+
+# 解析器 / 工具生成
+parser.out
+parsetab.py
+cscope.files
+cscope.out
+
+# 文档构建
+/src/doxygen/html
+/docs/_build
+
+# 外部子模块构建产物
+/ext/dramsim2/DRAMSim2
+/ext/mcpat/regression/*/*.out
+
+# util 构建产物
+/util/m5/*.o
+/util/m5/*.a
+/util/m5/m5
+/util/packet_pb2.py
+/util/tap/*.d
+/util/tap/*.o
+/util/tap/m5tap
+/util/term/m5term
+
+# 系统 / 引导镜像
+/system/arm/dt/*.dtb
+/system/arm/dt/.gen
+/system/arm/bootloader/arm/*.o
+/system/arm/bootloader/arm/boot.arm
+/system/arm/bootloader/arm/boot_emm.arm
+/system/arm/bootloader/arm64/*.o
+/system/arm/bootloader/arm64/boot.arm64
+/system/arm/bootloader/arm64/boot_emm.arm64
+/system/arm/bootloader/arm64/boot_v2.arm64
+
+# 本地配置 / 临时
+configs/example/memcheck.cfg
+configs/dram/lowp_sweep.cfg
+
+# 运行 / 调试输出
+*.log
+debug.log
+simple.txt
+
+# 补丁 / 备份
+*.orig
+*.rej
+*.bak
+*.tmp
+
+# 系统文件
+.DS_Store
+Thumbs.db

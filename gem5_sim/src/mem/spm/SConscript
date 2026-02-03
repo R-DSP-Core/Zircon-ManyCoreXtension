@@ -1,0 +1,9 @@
+Import('*')
+
+SimObject('ScratchpadMemory.py', sim_objects=['ScratchpadMemory'])
+SimObject('IDMA.py', sim_objects=['IDMA'])
+
+Source('spm.cc')
+Source('idma.cc')
+DebugFlag('ScratchpadMemory', 'Scratchpad Memory with DMA')
+DebugFlag('IDMA', 'IDMA Controller')

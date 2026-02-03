@@ -31,11 +31,6 @@ system.mem_ranges = [
 
 ]
 
-# ============================================================================
-# Interconnect (The "Power Strip")
-# ============================================================================
-# We use a SystemXBar to connect all Masters (CPU, SystemPort, DMA) 
-# to all Slaves (SPMs). It handles arbitration and routing automatically.
 system.xbar1 = IOXBar(
     frontend_latency=0,
     forward_latency=0,
@@ -48,21 +43,6 @@ system.xbar2 = IOXBar(
     response_latency=0,
 )
 
-# system.i_xbar = IOXBar(
-#     frontend_latency=0,
-#     forward_latency=0,
-#     response_latency=0,
-# )
-# system.d_xbar = IOXBar(
-#     frontend_latency=0,
-#     forward_latency=0,
-#     response_latency=0,
-# )
-# system.idma_xbar = IOXBar(
-#     frontend_latency=0,
-#     forward_latency=0,
-#     response_latency=0,
-# )
 # ============================================================================
 # Memory Hierarchy
 # ============================================================================
@@ -118,12 +98,8 @@ system.xbar2.mem_side_ports = system.l1i_spm.dma_port
 system.xbar2.mem_side_ports = system.l1d_spm.dma_port
 system.xbar2.mem_side_ports = system.l2_spm.dma_port
 
-# ============================================================================
-# Workload - 裸机模式 (无操作系统)
-# ============================================================================
-# full_system=False 即 SE 模式，直接运行二进制，无需操作系统
-# 恒等映射(VA=PA)通过 process.map(vaddr, paddr, size) 且 vaddr==paddr 实现
-binary = "tests/test-progs/hello/bin/spm_test"
+
+binary = "tests/test-progs/spm_test/bin/spm_test"
 system.workload = SEWorkload.init_compatible(binary)
 
 process = Process()
@@ -138,8 +114,6 @@ system.cpu.createThreads()
 m5.instantiate()
 
 # 恒等映射 (VA = PA): 虚拟地址 = 物理地址，无操作系统页表转换
-# 必须放在 m5.instantiate() 之后（process.map 是 cxxMethod）
-# 若链接脚本将 .data 放在 L2，L2 的 map 需加 clobber=True
 # process.map(0x80000000, 0x80000000, 0x10000)   # L1I SPM (Code)
 process.map(0x80010000, 0x80010000, 0x10000)   # L1D SPM
 # process.map(0x80020000, 0x80020000, 0x40000, cacheable=True, clobber=True)  # L2 SPM

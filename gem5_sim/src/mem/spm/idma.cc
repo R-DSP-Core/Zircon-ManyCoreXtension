@@ -227,7 +227,6 @@ void IDMA::idmaTransfer() {
 void IDMA::idmaReadDone() {
     // 将数据从缓冲区写入目标地址
     DPRINTF(IDMA, "idmaReadDone!calling dmaWrite(), Src: %#x, Dst: %#x, Size: %#x, Command: %#x, Status: %#x\n", srcAddrReg, dstAddrReg, sizeReg, commandReg, statusReg);
-    DPRINTF(IDMA,"dmaBuffer[0] = %x, dmaBuffer[1] = %x, dmaBuffer[2] = %x, dmaBuffer[3] = %x, dmaBuffer[4] = %x, dmaBuffer[5] = %x, dmaBuffer[6] = %x, dmaBuffer[7] = %x, dmaBuffer[8] = %x, dmaBuffer[9] = %x, dmaBuffer[10] = %x, dmaBuffer[11] = %x, dmaBuffer[12] = %x, dmaBuffer[13] = %x, dmaBuffer[14] = %x, dmaBuffer[15] = %x\n", dmaBuffer[0], dmaBuffer[1], dmaBuffer[2], dmaBuffer[3], dmaBuffer[4], dmaBuffer[5], dmaBuffer[6], dmaBuffer[7], dmaBuffer[8], dmaBuffer[9], dmaBuffer[10], dmaBuffer[11], dmaBuffer[12], dmaBuffer[13], dmaBuffer[14], dmaBuffer[15]);
 
     // 为写传输创建回调对象，完成后调用 idmaWriteDone
     auto *writeCb = new DmaVirtCallback<int>(

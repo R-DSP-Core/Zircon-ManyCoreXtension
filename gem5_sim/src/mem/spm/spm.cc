@@ -107,6 +107,7 @@ namespace memory {
     ScratchpadMemory::DmaPort::dmaDequeue()
     {
         if (dmaPacketQueue.empty()) {
+            DPRINTF(ScratchpadMemory, "In dmaDequeue, dmaPacketQueue is empty, returning\n");
             return;
         }
 
@@ -131,6 +132,8 @@ namespace memory {
         } else {
             // Failed - wait for retry
             retryResp = true;
+            DPRINTF(ScratchpadMemory, "In dmaDequeue, failed to send timing response, setting retryResp to %d\n", retryResp);
+
         }
     }
 
@@ -160,10 +163,12 @@ namespace memory {
     ScratchpadMemory::DmaPort::recvTimingReq(PacketPtr pkt)
     {
         // Check if we're currently blocked waiting for retry
-        DPRINTF(ScratchpadMemory, "I'm %s, I'm receiving cmd:%s towards %#x, size: %d\n", name(),pkt->cmdString(),  pkt->getAddr(), pkt->getSize());
-        if (retryResp) {
-            return false;
-        }
+        DPRINTF(ScratchpadMemory, "Receiving cmd:%s towards %#x, size: %d\n", pkt->cmdString(),  pkt->getAddr(), pkt->getSize());
+
+        // Note: We should NOT reject new requests just because retryResp is true.
+        // retryResp only affects response sending, not request receiving.
+        // Rejecting requests here causes deadlock when the same master has both
+        // pending responses and new requests (e.g., DMA with multiple transfers).
 
         // Process the packet similar to SimpleMemory
         bool needs_response = pkt->needsResponse();

@@ -3,7 +3,9 @@ The repo is built for version control for many core system development
 
 ## Architecture in hybrid_memory
 
-`hybrid_memory.py` uses two IOXBar buses to connect the CPU, SPMs, and IDMA. Address mapping and connections are as follows.
+`/gem5_sim/configs/tutorial/part1/hybrid_memory.py` uses two IOXBar buses to connect the CPU, SPMs, and IDMA. The address map and interconnect topology are summarized below.
+`/gem5_sim/tests/test-progs/spm_test` contains a C test program for validating SPM and IDMA functionality.
+`/gem5_sim/src/mem/spm` contains the implementations of the SPM and IDMA classes.
 
 ### Address map
 

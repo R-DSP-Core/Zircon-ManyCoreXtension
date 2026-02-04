@@ -212,6 +212,18 @@ int printf(const char *fmt, ...) {
 extern int main();
 
 void _start() {
+    /* 由 linker.ld 提供的段边界符号 */
+    extern uint8_t __data_start;
+    extern uint8_t __data_end;
+
+    /*
+     * SE 模式下：加载器会按 ELF 的 VMA 直接把 .data 初始化到目标地址
+     * （本工程的 linker.ld 已把 .data 放到 0x80020000 的 L2 SPM）。
+     *
+     * 因此这里“搬运 .data”通常不需要；但 .bss 必须清零。
+     */
+    memcpy((uint32_t*) 0x80020000, &__data_start, (size_t)(&__data_end - &__data_start));
+
     int ret = main();
     _exit(ret);
 }

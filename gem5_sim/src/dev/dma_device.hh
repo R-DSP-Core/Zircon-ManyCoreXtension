@@ -53,7 +53,6 @@
 #include "params/DmaVirtDevice.hh"
 #include "sim/drain.hh"
 #include "sim/system.hh"
-#include "debug/IDMA.hh"
 
 
 namespace gem5

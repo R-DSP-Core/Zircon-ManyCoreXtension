@@ -114,9 +114,9 @@ system.cpu.createThreads()
 m5.instantiate()
 
 # 恒等映射 (VA = PA): 虚拟地址 = 物理地址，无操作系统页表转换
-# process.map(0x80000000, 0x80000000, 0x10000)   # L1I SPM (Code)
+process.map(0x80000000, 0x80000000, 0x10000)   # L1I SPM (Code)
 process.map(0x80010000, 0x80010000, 0x10000)   # L1D SPM
-# process.map(0x80020000, 0x80020000, 0x40000, cacheable=True, clobber=True)  # L2 SPM
+process.map(0x80020000, 0x80020000, 0x40000, cacheable=True, clobber=True)  # L2 SPM
 process.map(0x80060000, 0x80060000, 0x1000)    # IDMA 寄存器
 print("=" * 70)
 print("SPM Test Configuration (Bus-based)")

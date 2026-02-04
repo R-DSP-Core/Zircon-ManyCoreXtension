@@ -61,7 +61,7 @@ configs/dram/lowp_sweep.cfg
 # 运行 / 调试输出
 *.log
 debug.log
-simple.txt
+*.txt
 
 # 补丁 / 备份
 *.orig

@@ -125,8 +125,8 @@ int test_l2_to_l1() {
     // Prepare test data in L2 SPM
     volatile uint32_t *l1_data = (volatile uint32_t*)L1D_SPM_DATA;
     volatile uint32_t *l2_data = (volatile uint32_t*)L2_SPM_BASE;
-    const int test_size = 16;  // 512 bytes
-    for(int i = 0; i < test_size; i++) {
+    const int test_size = 192;  // 512 bytes
+    for(int i = 0; i < 16; i++) {
         // l2_data[i] = 666;
         printf("Before idma transfer, l1d_spm_data in addr %lx = %x\n", L1D_SPM_DATA + i, l1_data[i]);
     }
@@ -140,7 +140,7 @@ int test_l2_to_l1() {
     dma_wait();
     printf("  DMA transfer completed!\n");
 
-    for(int i = 0; i < test_size; i++) {
+    for(int i = 0; i < 16; i++) {
         // l2_data[i] = 666;
         printf("After idma transfer, l1d_spm_data in addr %lx = %x\n", L1D_SPM_DATA + i, l1_data[i]);
     }

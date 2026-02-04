@@ -187,7 +187,7 @@ DmaPort::recvReqRetry()
 {
     retryPending = false;
     if (transmitList.size()){
-        DPRINTF(IDMA,"Still retrying send timing request, transmitList.size(): %d\n", transmitList.size());
+        DPRINTF(DMA,"Still retrying send timing request, transmitList.size(): %d\n", transmitList.size());
         trySendTimingReq();
 
     }
@@ -199,10 +199,8 @@ DmaPort::dmaAction(Packet::Command cmd, Addr addr, int size, Event *event,
                    std::optional<uint32_t> ssid, Tick delay,
                    Request::Flags flag)
 {
-    DPRINTF(DMA, "Starting DMA for addr: %#x size: %d sched: %d\n", addr, size,
-            event ? event->scheduled() : -1);
-
-    DPRINTF(IDMA, "I'm dmaAction(), addr: %#x, size: %#x\n", addr, size);
+    DPRINTF(DMA, "Starting DMA for addr: %#x size: %d sched: %d, cacheLineSize: %d\n", addr, size,
+            event ? event->scheduled() : -1, cacheLineSize);
 
     // One DMA request sender state for every action, that is then
     // split into many requests and packets based on the block size,
@@ -301,8 +299,8 @@ DmaPort::trySendTimingReq()
         DPRINTF(DMA, "-- Failed, waiting for retry\n");
     }
 
-    DPRINTF(DMA, "TransmitList: %d, retryPending: %d\n",
-            transmitList.size(), retryPending ? 1 : 0);
+    DPRINTF(DMA, "TransmitList: %d, retryPending: %d, transmitList.empty(): %d\n",
+            transmitList.size(), retryPending ? 1 : 0, transmitList.empty() ? 1 : 0);
 }
 
 bool
@@ -400,7 +398,6 @@ DmaPort::sendDma()
     // have to be done to make switching actually work.
     assert(transmitList.size());
 
-    DPRINTF(IDMA, "I'm sendDma(), transmitList.size(): %d\n", transmitList.size());
     if (sys->isTimingMode()) {
         // If we are either waiting for a retry or are still waiting after
         // sending the last packet, then do not proceed.
@@ -408,7 +405,6 @@ DmaPort::sendDma()
             DPRINTF(DMA, "Can't send immediately, waiting to send\n");
             return;
         }
-        DPRINTF(IDMA, "Caution!!!!I'm trying to sendTimingReq(),now retryPending: %d, sendEvent.scheduled(): %d\n", retryPending, sendEvent.scheduled());
         trySendTimingReq();
     } else if (sys->isAtomicMode()) {
         const bool bypass = sys->bypassCaches();

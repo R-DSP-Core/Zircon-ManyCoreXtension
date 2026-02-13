@@ -60,7 +60,7 @@ int main () {
 
     //free(thread_ids);
     /*std::fstream file;
-    file.open("../workload/C.txt", std::ios::out);
+    file.open("./C.txt", std::ios::out);
     for(int i=0; i<I; i++) {
         for(int j=0; j<J; j++) {
             file << to_string(C[i][j]) + ", ";

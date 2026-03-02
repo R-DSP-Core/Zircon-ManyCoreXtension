@@ -1,0 +1,5 @@
+Import('*')
+
+SimObject('SimpleDMA.py', sim_objects=['SimpleDMA'])
+
+Source('SimpleDMA.cc')
